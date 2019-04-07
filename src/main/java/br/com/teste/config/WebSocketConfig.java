@@ -6,21 +6,26 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
-// Baedung Intro to WebSockets with Spring - https://www.baeldung.com/websockets-spring
+// getting Started with Spring WebScoket - https://spring.io/guides/gs/messaging-stomp-websocket/
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		// broker in memoria q leva mensagem de volta aos client´s 
 		registry.enableSimpleBroker("/topic");
-		registry.setApplicationDestinationPrefixes("/app");
+		//acrescenta prefixo no endereço do broker dos metodos anotados com @MessageMapping ex: app/executa
+		registry.setApplicationDestinationPrefixes("/app"); 
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/chat");
-		registry.addEndpoint("/chat").withSockJS();
+		registry.addEndpoint("/webserver")
+			.setAllowedOrigins("*")
+			.withSockJS(); // usado para conexao pelo client
 	}
+	
+	
 
 }

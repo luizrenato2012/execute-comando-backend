@@ -1,27 +1,33 @@
 package br.com.teste.resource;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-import br.com.teste.model.MensagemOutput;
-import br.com.teste.model.MensagemStatus;
+import br.com.teste.model.MensagemExecucao;
+import br.com.teste.model.MensagemRetorno;
 
-@RestController
-@RequestMapping("/websocket")
+@Controller
 public class ComandoResource {
 	
-	@MessageMapping("/chat")
-	@SendTo("/topic/messages")
-	public MensagemOutput envia(MensagemStatus mensagem) {
+	
+	@MessageMapping("/executa") // endereco de envio dos clientes /app/executa
+	@SendTo("/topic/respostas")  //fila de mensagens  que os client´s se inscrevem (subscript)
+	public MensagemRetorno envia(MensagemExecucao mensagem) { // menssagem recebidas dos client´s
 		System.out.println("Enviando " + mensagem);
-		SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-		mensagem.setDataHora(fmt.format(new Date()));
-		return new MensagemOutput(mensagem);
+//		try {
+//			Thread.sleep(1 * 1_000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		StringBuilder strb = new StringBuilder();
+		strb.append("[Retorno] - executado: ")
+			.append(mensagem.getHost()+" - ")
+			.append(mensagem.getDatabase() + " - ");
+		return new MensagemRetorno(strb.toString(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
 	}
 
 }
