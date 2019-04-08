@@ -31,9 +31,13 @@ public class MensagemRetorno {
 		return dataHora;
 	}
 
-
 	public void setDataHora(String dataHora) {
 		this.dataHora = dataHora;
 	}
 
+	@Override
+	public String toString() {
+		return "MensagemRetorno [mensagem=" + mensagem + ", dataHora=" + dataHora + "]";
+	}
+	
 }

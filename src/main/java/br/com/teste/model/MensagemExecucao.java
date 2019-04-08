@@ -10,11 +10,6 @@ public class MensagemExecucao {
 		super();
 	}
 
-	public MensagemExecucao(String mensagem) {
-		super();
-		this.host = mensagem;
-	}
-	
 	public MensagemExecucao(String host, String database, String comando) {
 		super();
 		this.host = host;
@@ -37,10 +32,21 @@ public class MensagemExecucao {
 	public String getComando() {
 		return comando;
 	}
+	
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+
+	public void setComando(String comando) {
+		this.comando = comando;
+	}
 
 	@Override
 	public String toString() {
-		return "MensagemStatus [mensagem=" + host + "]";
+		return "MensagemExecucao [host=" + host + ", database=" + database + ", comando=" + comando + "]";
 	}
+	
+	
 
+	
 }
